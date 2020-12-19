@@ -25,6 +25,7 @@
 		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 		<org.springdoc.springdoc-openapi-ui.version>1.2.32</org.springdoc.springdoc-openapi-ui.version>
 		<org.apache.maven.plugins.maven-surefire-plugin.version>2.22.2</org.apache.maven.plugins.maven-surefire-plugin.version>
+		<org.codehaus.mojo.cobertura-maven-plugin>2.7</org.codehaus.mojo.cobertura-maven-plugin>
 	</properties>
 
 	<dependencies>
@@ -77,7 +78,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
+				<version>${org.codehaus.mojo.cobertura-maven-plugin}</version>
 				<configuration>
 					<formats>
 						<format>html</format>
