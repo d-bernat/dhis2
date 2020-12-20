@@ -47,6 +47,7 @@ public class DHisClientImpl implements DhisClient
         {
             return null;
         }
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
         URI uri = new URI(schema + "://" + url + ":" + port + dataElementsPath);
         return getElements(uri, restTemplate);
     }
