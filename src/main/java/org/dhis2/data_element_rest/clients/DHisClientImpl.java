@@ -6,7 +6,6 @@ import org.dhis2.data_element_rest.factories.RestTemplateFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -60,6 +59,7 @@ public class DHisClientImpl implements DhisClient
         {
             return null;
         }
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
         URI uri = new URI(schema + "://" + url + ":" + port + dataElementGroupsPath);
         return getGroups(uri, restTemplate);
     }
@@ -67,18 +67,12 @@ public class DHisClientImpl implements DhisClient
     @Cacheable(value = "dataElements", key = "#uri.path")
     public DataElements getElements(URI uri, RestTemplate restTemplate)
     {
-        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
-        ResponseEntity<DataElements> dataElementsEntity = restTemplate.exchange(
-                uri, HttpMethod.GET, null, DataElements.class);
-        return dataElementsEntity.getBody();
+        return restTemplate.exchange(uri, HttpMethod.GET, null, DataElements.class).getBody();
     }
 
     @Cacheable(value = "dataElementGroups", key = "#uri.path")
     public DataElementGroups getGroups(URI uri, RestTemplate restTemplate)
     {
-        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
-        ResponseEntity<DataElementGroups> dataElementGroupsEntity = restTemplate.exchange(
-                uri, HttpMethod.GET, null, DataElementGroups.class);
-        return dataElementGroupsEntity.getBody();
+        return restTemplate.exchange(uri, HttpMethod.GET, null, DataElementGroups.class).getBody();
     }
 }
