@@ -28,6 +28,7 @@
         </org.apache.maven.plugins.maven-surefire-plugin.version>
         <org.codehaus.mojo.cobertura-maven-plugin.version>2.7</org.codehaus.mojo.cobertura-maven-plugin.version>
         <org.apache.httpcomponents.httpclient.version>4.5.13</org.apache.httpcomponents.httpclient.version>
+        <com.google.guava.version>19.0</com.google.guava.version>
     </properties>
 
     <dependencies>
@@ -86,7 +87,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>${com.google.guava.version}</version>
         </dependency>
     </dependencies>
     <build>
