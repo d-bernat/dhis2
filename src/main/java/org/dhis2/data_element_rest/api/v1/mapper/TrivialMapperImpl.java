@@ -6,6 +6,7 @@ import org.dhis2.data_element_rest.api.v1.model.DataElementsDTO;
 import org.dhis2.data_element_rest.domain.DataElements;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,7 +15,7 @@ public class TrivialMapperImpl implements TrivialMapper
     @Override
     public DataElementsDTO toDataElementsDTO(DataElements dataElements)
     {
-        if (dataElements != null && dataElements.getDataElements() != null && dataElements.getDataElements().size() > 0)
+        if(dataElements != null && dataElements.getDataElements() != null && dataElements.getDataElements().size() > 0)
         {
             DataElementsDTO dataElementsDTO = new DataElementsDTO();
             dataElementsDTO.setDataElements(dataElements.getDataElements().parallelStream().map(elem ->

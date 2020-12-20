@@ -19,7 +19,7 @@ public class DataElementsController
         this.dhisService = dhisService;
     }
 
-    @GetMapping("api/v1/dataElemets")
+    @GetMapping("dataElements")
     public DataElementsDTO getDataElements() throws URISyntaxException
     {
         return dhisService.getDataElements();

@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 @Service
 public class DHisServiceImpl implements DhisService
@@ -50,8 +51,8 @@ public class DHisServiceImpl implements DhisService
         }
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
         URI uri = new URI(schema + "://" + url + ":" + port + dataElementsPath);
-        ResponseEntity<DataElements> dataElementsEntity = restTemplate.exchange(uri,
-                HttpMethod.GET, null, DataElements.class);
+        ResponseEntity<DataElements> dataElementsEntity = restTemplate.exchange(
+                uri, HttpMethod.GET, null, DataElements.class);
         return trivialMapper.toDataElementsDTO(dataElementsEntity.getBody());
     }
 }

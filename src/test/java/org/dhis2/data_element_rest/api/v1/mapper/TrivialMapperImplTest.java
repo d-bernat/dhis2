@@ -17,7 +17,7 @@ public class TrivialMapperImplTest
     private final static String ELEMENT_ID = "ELEMENT";
     private final static String DISPLAY_NAME = "TEST";
 
-    private TrivialMapper mapper = new TrivialMapperImpl();
+    private final TrivialMapper mapper = new TrivialMapperImpl();
 
     @Test
     public void transform_DataElements_To_DataElementsDTO_When_Called()
