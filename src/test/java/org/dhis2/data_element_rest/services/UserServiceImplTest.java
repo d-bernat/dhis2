@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class UserServiceTest
+public class UserServiceImplTest
 {
 
     public static final long ID = 1L;
@@ -25,7 +25,7 @@ public class UserServiceTest
     UserRepository userRepository;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         MockitoAnnotations.initMocks(this);
         userService = new UserServiceImpl(userRepository);
