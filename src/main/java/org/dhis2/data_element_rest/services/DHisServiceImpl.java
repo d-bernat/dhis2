@@ -1,8 +1,11 @@
 package org.dhis2.data_element_rest.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dhis2.data_element_rest.api.v1.mapper.TrivialMapper;
-import org.dhis2.data_element_rest.api.v1.model.DataElementsDTO;
-import org.dhis2.data_element_rest.domain.DataElements;
+import org.dhis2.data_element_rest.api.v1.model.elementgroups.DataElementGroupsDTO;
+import org.dhis2.data_element_rest.api.v1.model.elements.DataElementsDTO;
+import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroups;
+import org.dhis2.data_element_rest.domain.elements.DataElements;
 import org.dhis2.data_element_rest.factories.RestTemplateFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -13,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 @Service
 public class DHisServiceImpl implements DhisService
@@ -33,6 +35,8 @@ public class DHisServiceImpl implements DhisService
     private Integer port;
     @Value("${dhis2.dataElements.path}")
     private String dataElementsPath;
+    @Value("${dhis2.dataElementGroups.path}")
+    private String dataElementGroupsPath;
 
 
     public DHisServiceImpl(RestTemplateFactory restTemplateFactory, TrivialMapper trivialMapper)
@@ -54,5 +58,20 @@ public class DHisServiceImpl implements DhisService
         ResponseEntity<DataElements> dataElementsEntity = restTemplate.exchange(
                 uri, HttpMethod.GET, null, DataElements.class);
         return trivialMapper.toDataElementsDTO(dataElementsEntity.getBody());
+    }
+
+    @Override
+    public DataElementGroupsDTO getDataElementGroups() throws URISyntaxException
+    {
+        RestTemplate restTemplate = restTemplateFactory.getObject();
+        if (restTemplate == null)
+        {
+            return null;
+        }
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
+        URI uri = new URI(schema + "://" + url + ":" + port + dataElementGroupsPath);
+        ResponseEntity<DataElementGroups> dataElementGroupsEntity = restTemplate.exchange(
+                uri, HttpMethod.GET, null, DataElementGroups.class);
+        return trivialMapper.toDataElementGroupsDTO(dataElementGroupsEntity.getBody());
     }
 }

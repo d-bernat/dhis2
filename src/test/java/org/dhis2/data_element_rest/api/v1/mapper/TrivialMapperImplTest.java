@@ -1,9 +1,13 @@
 package org.dhis2.data_element_rest.api.v1.mapper;
 
-import org.dhis2.data_element_rest.api.v1.model.DataElementsDTO;
-import org.dhis2.data_element_rest.domain.DataElement;
-import org.dhis2.data_element_rest.domain.DataElementGroupsItem;
-import org.dhis2.data_element_rest.domain.DataElements;
+import org.dhis2.data_element_rest.api.v1.model.elementgroups.DataElementGroupsDTO;
+import org.dhis2.data_element_rest.api.v1.model.elements.DataElementsDTO;
+import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroup;
+import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroups;
+import org.dhis2.data_element_rest.domain.elementgroups.DataElementsItem;
+import org.dhis2.data_element_rest.domain.elements.DataElement;
+import org.dhis2.data_element_rest.domain.elements.DataElementGroupsItem;
+import org.dhis2.data_element_rest.domain.elements.DataElements;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -41,5 +45,31 @@ public class TrivialMapperImplTest
         //Assert
         assertEquals(dataElementsDTO.getDataElements().size(), 1);
     }
+
+    @Test
+    public void transform_DataElementGroups_To_DataElementGroupsDTO_When_Called()
+    {
+        //Arrange
+        DataElementGroups dataElementGroups = new DataElementGroups();
+        DataElementGroup dataElementGroup = new DataElementGroup();
+        DataElementsItem dataElementsItem = new DataElementsItem();
+        dataElementsItem.setId(ELEMENT_ID);
+        dataElementGroup.setId(GROUPS_ID);
+        dataElementGroup.setDisplayName(DISPLAY_NAME);
+
+        List<DataElementsItem> dataElementsItems = new ArrayList<>();
+        dataElementsItems.add(dataElementsItem);
+        dataElementGroup.setDataElements(dataElementsItems);
+
+        List<DataElementGroup> dataElementGroupItems = new ArrayList<>();
+        dataElementGroupItems.add(dataElementGroup);
+        dataElementGroups.setDataElementGroups(dataElementGroupItems);
+        //Act
+        DataElementGroupsDTO dataElementsDTO = mapper.toDataElementGroupsDTO(dataElementGroups);
+
+        //Assert
+        assertEquals(dataElementsDTO.getDataElementGroups().size(), 1);
+    }
+
 
 }

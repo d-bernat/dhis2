@@ -23,5 +23,10 @@
     {
       "name": "dhis2.dataElements.path",
       "type": "java.lang.String"
+    },
+    {
+      "name": "dhis2.dataElementGroups.path",
+      "type": "java.lang.String"
     }
-  ] }
+  ]
+}

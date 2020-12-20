@@ -1,4 +1,4 @@
-package org.dhis2.data_element_rest.api.v1.model;
+package org.dhis2.data_element_rest.domain.elements;
 
 import lombok.Data;
 import lombok.Generated;
@@ -7,9 +7,9 @@ import java.util.List;
 
 @Data
 @Generated
-public class DataElementDTO
+public class DataElement
 {
     private String id;
     private String displayName;
-    private List<DataElementGroupsItemDTO> dataElementGroups;
+    private List<DataElementGroupsItem> dataElementGroups;
 }
