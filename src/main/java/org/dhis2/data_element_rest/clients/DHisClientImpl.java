@@ -1,13 +1,10 @@
-package org.dhis2.data_element_rest.services;
+package org.dhis2.data_element_rest.clients;
 
-import lombok.extern.slf4j.Slf4j;
-import org.dhis2.data_element_rest.api.v1.mapper.TrivialMapper;
-import org.dhis2.data_element_rest.api.v1.model.elementgroups.DataElementGroupsDTO;
-import org.dhis2.data_element_rest.api.v1.model.elements.DataElementsDTO;
 import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroups;
 import org.dhis2.data_element_rest.domain.elements.DataElements;
 import org.dhis2.data_element_rest.factories.RestTemplateFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
@@ -18,10 +15,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Service
-public class DHisServiceImpl implements DhisService
+public class DHisClientImpl implements DhisClient
 {
     private final RestTemplateFactory restTemplateFactory;
-    private final TrivialMapper trivialMapper;
 
     @Value("${dhis2.username}")
     private String username;
@@ -39,39 +35,50 @@ public class DHisServiceImpl implements DhisService
     private String dataElementGroupsPath;
 
 
-    public DHisServiceImpl(RestTemplateFactory restTemplateFactory, TrivialMapper trivialMapper)
+    public DHisClientImpl(RestTemplateFactory restTemplateFactory)
     {
         this.restTemplateFactory = restTemplateFactory;
-        this.trivialMapper = trivialMapper;
     }
 
     @Override
-    public DataElementsDTO getDataElements() throws URISyntaxException
+    public DataElements getDataElements() throws URISyntaxException
     {
         RestTemplate restTemplate = restTemplateFactory.getObject();
         if (restTemplate == null)
         {
             return null;
         }
-        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
         URI uri = new URI(schema + "://" + url + ":" + port + dataElementsPath);
+        return getElements(uri, restTemplate);
+    }
+
+    @Override
+    public DataElementGroups getDataElementGroups() throws URISyntaxException
+    {
+        RestTemplate restTemplate = restTemplateFactory.getObject();
+        if (restTemplate == null)
+        {
+            return null;
+        }
+        URI uri = new URI(schema + "://" + url + ":" + port + dataElementGroupsPath);
+        return getGroups(uri, restTemplate);
+    }
+
+    @Cacheable(value = "dataElements", key = "#uri.path")
+    public DataElements getElements(URI uri, RestTemplate restTemplate)
+    {
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
         ResponseEntity<DataElements> dataElementsEntity = restTemplate.exchange(
                 uri, HttpMethod.GET, null, DataElements.class);
-        return trivialMapper.toDataElementsDTO(dataElementsEntity.getBody());
+        return dataElementsEntity.getBody();
     }
 
-    @Override
-    public DataElementGroupsDTO getDataElementGroups() throws URISyntaxException
+    @Cacheable(value = "dataElementGroups", key = "#uri.path")
+    public DataElementGroups getGroups(URI uri, RestTemplate restTemplate)
     {
-        RestTemplate restTemplate = restTemplateFactory.getObject();
-        if (restTemplate == null)
-        {
-            return null;
-        }
         restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(username, password));
-        URI uri = new URI(schema + "://" + url + ":" + port + dataElementGroupsPath);
         ResponseEntity<DataElementGroups> dataElementGroupsEntity = restTemplate.exchange(
                 uri, HttpMethod.GET, null, DataElementGroups.class);
-        return trivialMapper.toDataElementGroupsDTO(dataElementGroupsEntity.getBody());
+        return dataElementGroupsEntity.getBody();
     }
 }

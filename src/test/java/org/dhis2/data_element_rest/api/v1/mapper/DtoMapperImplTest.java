@@ -1,7 +1,6 @@
 package org.dhis2.data_element_rest.api.v1.mapper;
 
-import org.dhis2.data_element_rest.api.v1.model.elementgroups.DataElementGroupsDTO;
-import org.dhis2.data_element_rest.api.v1.model.elements.DataElementsDTO;
+import org.dhis2.data_element_rest.api.v1.model.Items;
 import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroup;
 import org.dhis2.data_element_rest.domain.elementgroups.DataElementGroups;
 import org.dhis2.data_element_rest.domain.elementgroups.DataElementsItem;
@@ -15,16 +14,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TrivialMapperImplTest
+public class DtoMapperImplTest
 {
     private final static String GROUPS_ID = "GROUP";
     private final static String ELEMENT_ID = "ELEMENT";
     private final static String DISPLAY_NAME = "TEST";
 
-    private final TrivialMapper mapper = new TrivialMapperImpl();
+    private final DtoMapper mapper = new DtoMapperImpl();
 
     @Test
-    public void transform_DataElements_To_DataElementsDTO_When_Called()
+    public void transform_DataElements_To_Items_When_Called()
     {
         //Arrange
         DataElements dataElements = new DataElements();
@@ -33,21 +32,22 @@ public class TrivialMapperImplTest
         DataElement dataElement = new DataElement();
         dataElement.setId(ELEMENT_ID);
         dataElement.setDisplayName(DISPLAY_NAME);
-        List<DataElementGroupsItem> items = new ArrayList<>();
-        items.add(dataElementGroupsItem);
-        dataElement.setDataElementGroups(items);
+        List<DataElementGroupsItem> groupItems = new ArrayList<>();
+        groupItems.add(dataElementGroupsItem);
+        dataElement.setDataElementGroups(groupItems);
         List<DataElement> elements = new ArrayList<>();
         elements.add(dataElement);
         dataElements.setDataElements(elements);
+
         //Act
-        DataElementsDTO dataElementsDTO = mapper.toDataElementsDTO(dataElements);
+        Items items = mapper.toItems(dataElements);
 
         //Assert
-        assertEquals(dataElementsDTO.getDataElements().size(), 1);
+        assertEquals(items.getItems().size(), 1);
     }
 
     @Test
-    public void transform_DataElementGroups_To_DataElementGroupsDTO_When_Called()
+    public void transform_DataElementGroups_To_Items_When_Called()
     {
         //Arrange
         DataElementGroups dataElementGroups = new DataElementGroups();
@@ -56,20 +56,17 @@ public class TrivialMapperImplTest
         dataElementsItem.setId(ELEMENT_ID);
         dataElementGroup.setId(GROUPS_ID);
         dataElementGroup.setDisplayName(DISPLAY_NAME);
-
         List<DataElementsItem> dataElementsItems = new ArrayList<>();
         dataElementsItems.add(dataElementsItem);
         dataElementGroup.setDataElements(dataElementsItems);
-
         List<DataElementGroup> dataElementGroupItems = new ArrayList<>();
         dataElementGroupItems.add(dataElementGroup);
         dataElementGroups.setDataElementGroups(dataElementGroupItems);
+
         //Act
-        DataElementGroupsDTO dataElementsDTO = mapper.toDataElementGroupsDTO(dataElementGroups);
+        Items items = mapper.toItems(dataElementGroups);
 
         //Assert
-        assertEquals(dataElementsDTO.getDataElementGroups().size(), 1);
+        assertEquals(items.getItems().size(), 1);
     }
-
-
 }

@@ -1,8 +1,7 @@
 package org.dhis2.data_element_rest.controllers.v1;
 
-import org.dhis2.data_element_rest.api.v1.model.elementgroups.DataElementGroupsDTO;
-import org.dhis2.data_element_rest.api.v1.model.elements.DataElementsDTO;
-import org.dhis2.data_element_rest.services.DhisService;
+import org.dhis2.data_element_rest.api.v1.model.Items;
+import org.dhis2.data_element_rest.services.DataElementsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,22 +12,22 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/v1")
 public class DataElementsController
 {
-    private final DhisService dhisService;
+    private final DataElementsService dataElementsService;
 
-    public DataElementsController(DhisService dhisService)
+    public DataElementsController(DataElementsService dataElementsService)
     {
-        this.dhisService = dhisService;
+        this.dataElementsService = dataElementsService;
     }
 
     @GetMapping("dataElements")
-    public DataElementsDTO getDataElements() throws URISyntaxException
+    public Items getDataElements() throws URISyntaxException
     {
-        return dhisService.getDataElements();
+        return dataElementsService.getDataElementItems();
     }
 
     @GetMapping("dataElementGroups")
-    public DataElementGroupsDTO getDataElementGroups() throws URISyntaxException
+    public Items getDataElementGroups() throws URISyntaxException
     {
-        return dhisService.getDataElementGroups();
+        return dataElementsService.getDataElementGroupItems();
     }
 }

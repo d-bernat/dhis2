@@ -27,6 +27,14 @@
     {
       "name": "dhis2.dataElementGroups.path",
       "type": "java.lang.String"
+    },
+    {
+      "name": "dhis2.dataElements.cache.ttl-in-minutes",
+      "type": "java.lang.Long"
+    },
+    {
+      "name": "dhis2.dataElementGroups.cache.ttl-in-minutes",
+      "type": "java.lang.Long"
     }
   ]
 }
