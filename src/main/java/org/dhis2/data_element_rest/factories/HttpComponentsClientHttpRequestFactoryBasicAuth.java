@@ -17,16 +17,19 @@ public class HttpComponentsClientHttpRequestFactoryBasicAuth extends HttpCompone
 
     private final HttpHost host;
 
-    public HttpComponentsClientHttpRequestFactoryBasicAuth(HttpHost host) {
+    public HttpComponentsClientHttpRequestFactoryBasicAuth(HttpHost host)
+    {
         super();
         this.host = host;
     }
 
-    protected HttpContext createHttpContext(HttpMethod httpMethod, URI uri) {
+    protected HttpContext createHttpContext(HttpMethod httpMethod, URI uri)
+    {
         return createHttpContext();
     }
 
-    private HttpContext createHttpContext() {
+    private HttpContext createHttpContext()
+    {
         AuthCache authCache = new BasicAuthCache();
 
         BasicScheme basicAuth = new BasicScheme();

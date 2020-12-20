@@ -19,17 +19,23 @@ public class RestTemplateFactory implements FactoryBean<RestTemplate>, Initializ
     @Value("${dhis2.port}")
     private Integer port;
 
-    public RestTemplate getObject() {
+    public RestTemplate getObject()
+    {
         return restTemplate;
     }
-    public Class<RestTemplate> getObjectType() {
+
+    public Class<RestTemplate> getObjectType()
+    {
         return RestTemplate.class;
     }
-    public boolean isSingleton() {
+
+    public boolean isSingleton()
+    {
         return true;
     }
 
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet()
+    {
         HttpHost host = new HttpHost(url, port, schema);
         restTemplate = new RestTemplate(
                 new HttpComponentsClientHttpRequestFactoryBasicAuth(host));

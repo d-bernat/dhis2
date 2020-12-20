@@ -1,4 +1,5 @@
 package org.dhis2.data_element_rest.bootstrap;
+
 import lombok.extern.slf4j.Slf4j;
 import org.dhis2.data_element_rest.domain.User;
 import org.dhis2.data_element_rest.repositories.UserRepository;
@@ -17,7 +18,7 @@ public class Bootstrap implements CommandLineRunner
     }
 
     @Override
-    public void run(String... args) throws Exception
+    public void run(String... args)
     {
         User bugs = new User();
         bugs.setUsername("bugs");

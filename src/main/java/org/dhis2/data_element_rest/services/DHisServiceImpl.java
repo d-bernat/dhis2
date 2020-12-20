@@ -44,7 +44,7 @@ public class DHisServiceImpl implements DhisService
     public DataElementsDTO getDataElements() throws URISyntaxException
     {
         RestTemplate restTemplate = restTemplateFactory.getObject();
-        if(restTemplate == null)
+        if (restTemplate == null)
         {
             return null;
         }
