@@ -1,11 +1,13 @@
 package org.dhis2.data_element_rest.controllers.v1;
 
+import org.apache.http.conn.UnsupportedSchemeException;
 import org.dhis2.data_element_rest.api.v1.model.Items;
 import org.dhis2.data_element_rest.services.DataElementsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 @RestController

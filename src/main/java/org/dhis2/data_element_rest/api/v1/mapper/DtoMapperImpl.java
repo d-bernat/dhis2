@@ -18,20 +18,24 @@ public class DtoMapperImpl implements DtoMapper
     @Override
     public Items toItems(DataElements dataElements)
     {
-        if (dataElements != null && dataElements.getDataElements() != null && dataElements.getDataElements().size() > 0)
+        if (dataElements != null && dataElements.getDataElements() != null
+                && dataElements.getDataElements().size() > 0)
         {
             Items items = new Items();
             items.setMeta(getMeta(ItemType.DATA_ELEMENTS, dataElements.getDataElements().size()));
-            items.setItems(dataElements.getDataElements().parallelStream().map(elem ->
-            {
-                Item item = new Item();
-                item.setId(elem.getId());
-                item.setDisplayName(elem.getDisplayName());
-                item.setNestedItemIds(elem.getDataElementGroups()
-                                          .parallelStream()
-                                          .map(DataElementGroupsItem::getId).collect(Collectors.toList()));
-                return item;
-            }).collect(Collectors.toList()));
+            items.setItems(dataElements.getDataElements()
+                                       .parallelStream()
+                                       .map(elem ->
+                                       {
+                                           Item item = new Item();
+                                           item.setId(elem.getId());
+                                           item.setDisplayName(elem.getDisplayName());
+                                           item.setNestedItemIds(elem.getDataElementGroups()
+                                                                     .parallelStream()
+                                                                     .map(DataElementGroupsItem::getId)
+                                                                     .collect(Collectors.toList()));
+                                           return item;
+                                       }).collect(Collectors.toList()));
             return items;
         }
         return null;
@@ -40,20 +44,24 @@ public class DtoMapperImpl implements DtoMapper
     @Override
     public Items toItems(DataElementGroups dataElementGroups)
     {
-        if (dataElementGroups != null && dataElementGroups.getDataElementGroups() != null && dataElementGroups.getDataElementGroups().size() > 0)
+        if (dataElementGroups != null && dataElementGroups.getDataElementGroups() != null
+                && dataElementGroups.getDataElementGroups().size() > 0)
         {
             Items items = new Items();
             items.setMeta(getMeta(ItemType.DATA_ELEMENT_GROUPS, dataElementGroups.getDataElementGroups().size()));
-            items.setItems(dataElementGroups.getDataElementGroups().parallelStream().map(elem ->
-            {
-                Item item = new Item();
-                item.setId(elem.getId());
-                item.setDisplayName(elem.getDisplayName());
-                item.setNestedItemIds(elem.getDataElements()
-                                          .parallelStream()
-                                          .map(DataElementsItem::getId).collect(Collectors.toList()));
-                return item;
-            }).collect(Collectors.toList()));
+            items.setItems(dataElementGroups.getDataElementGroups()
+                                            .parallelStream()
+                                            .map(elem ->
+                                            {
+                                                Item item = new Item();
+                                                item.setId(elem.getId());
+                                                item.setDisplayName(elem.getDisplayName());
+                                                item.setNestedItemIds(elem.getDataElements()
+                                                                          .parallelStream()
+                                                                          .map(DataElementsItem::getId)
+                                                                          .collect(Collectors.toList()));
+                                                return item;
+                                            }).collect(Collectors.toList()));
             return items;
         }
         return null;
