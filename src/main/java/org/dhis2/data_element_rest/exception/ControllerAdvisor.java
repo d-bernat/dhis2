@@ -43,8 +43,7 @@ public class ControllerAdvisor
         return getErrorResponse(exception, "1004");
     }
 
-
-    @ResponseBody
+        @ResponseBody
     @ExceptionHandler(Exception.class)
     public Items handleDefaultException(Exception exception)
     {
